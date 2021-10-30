@@ -6,7 +6,7 @@ const fontSizes = {
   headline5: "1.5rem",
   headline6: "1.25rem",
   body1: "1rem",
-  body2: "0.875rem",
+  body2: "0.75rem",
   subtitle1: "1rem",
   subtitle2: "0.875rem",
   button: "0.875rem",
@@ -16,6 +16,9 @@ const fontSizes = {
 
 const lightColors = {
   background: "#F9F9F9",
+  card: "#ffffff",
+  shadow: "rgba(0,0,0,0.25)",
+  grey: "#747474",
 };
 
 const LightTheme = {
