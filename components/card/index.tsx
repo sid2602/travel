@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../assets/device";
 
 type CardProps = {
   imgSrc?: string;
@@ -30,7 +31,6 @@ const Card: React.FC<CardProps> = ({
 export default Card;
 
 const CardContainer = styled.article`
-  min-width: 300px;
   max-width: 700px;
   width: 100%;
   border-radius: 10px;
@@ -43,12 +43,24 @@ const CardContainer = styled.article`
   &:hover {
     box-shadow: 6px 6px 6px 0 ${({ theme }) => theme.colors.shadow};
   }
+
+  @media ${device.mobileXl} {
+    flex-direction: column;
+    min-width: 280px;
+    height: 370px;
+  }
 `;
 
 const CardImageContainer = styled.section`
-  min-width: 180px;
+  min-width: 220px;
   height: 100%;
   flex: 1;
+
+  @media ${device.mobileXl} {
+    flex: 1;
+    width: 100%;
+    max-height: 180px;
+  }
 `;
 
 const CardImage = styled.img`
@@ -56,12 +68,20 @@ const CardImage = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 10px 0 0 10px;
+
+  @media ${device.mobileXl} {
+    border-radius: 10px 10px 0 0;
+  }
 `;
 
 const CardContentContainer = styled.section`
-  padding: 1rem;
+  padding: 1.5rem 2rem;
   height: 100%;
   flex: 2;
+
+  @media ${device.mobileXl} {
+    padding: 1.5rem 1rem;
+  }
 `;
 
 const Title = styled.h5`
