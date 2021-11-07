@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { device } from "../../assets/device";
-
+import Link from "next/link";
 type CardProps = {
   imgSrc?: string;
   title: string;
@@ -15,16 +15,20 @@ const Card: React.FC<CardProps> = ({
   text,
 }) => {
   return (
-    <CardContainer>
-      <CardImageContainer>
-        <CardImage src={imgSrc} />
-      </CardImageContainer>
-      <CardContentContainer>
-        <Title>{title}</Title>
-        <SubTitle>{subTitle}</SubTitle>
-        <Text>{text}</Text>
-      </CardContentContainer>
-    </CardContainer>
+    <Link href={`monument/Wawel`}>
+      <a>
+        <CardContainer>
+          <CardImageContainer>
+            <CardImage src={imgSrc} />
+          </CardImageContainer>
+          <CardContentContainer>
+            <Title>{title}</Title>
+            <SubTitle>{subTitle}</SubTitle>
+            <Text>{text}</Text>
+          </CardContentContainer>
+        </CardContainer>
+      </a>
+    </Link>
   );
 };
 

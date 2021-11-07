@@ -42,6 +42,7 @@ const MapContainer = styled.section<MapContainerProps>`
   display: block;
   width: 50%;
   height: 100%;
+  padding: 1rem;
   @media ${device.laptop} {
     display: none;
 
