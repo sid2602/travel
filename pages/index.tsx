@@ -104,19 +104,23 @@ type TemporaryMapContainerProps = {
 };
 
 const CloseMobileMapButton = styled.button`
-  position: absolute;
-  right: 25px;
-  top: 25px;
-  background-color: white;
-  box-shadow: 0 0 1px 0 black;
-  color: black;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 35px;
-  height: 35px;
-  z-index: 1000;
+  display: none;
+
+  @media ${device.laptop} {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    background-color: white;
+    box-shadow: 0 0 1px 0 black;
+    color: black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    z-index: 1000;
+  }
 `;
 
 const TemporaryMapContainer = styled.section<TemporaryMapContainerProps>`
@@ -141,7 +145,6 @@ const TemporaryMapContainer = styled.section<TemporaryMapContainerProps>`
 
 const FloatingMapButton = styled.button`
   display: none;
-
   @media ${device.laptop} {
     width: 180px;
     height: 40px;
@@ -152,7 +155,7 @@ const FloatingMapButton = styled.button`
     letter-spacing: 1px;
     border-radius: 10px;
     display: block;
-    position: fixed;
+    position: absolute;
     bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
