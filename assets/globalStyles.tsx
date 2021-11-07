@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-
 const GlobalStyle = createGlobalStyle`
   
   *{
@@ -17,6 +16,18 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     background: ${({ theme }) => theme.colors.background};
   }
+
+  button{
+    background-color: white;
+    border: none;
+    color: black;
+    cursor: pointer;
+  }
+
+  svg{
+    font-size: 20px;
+  }
+
 `;
 
 export default GlobalStyle;
