@@ -1,59 +1,60 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import dynamic from "next/dynamic";
+import React from "react";
+import { useState } from "react";
+import styled, { css } from "styled-components";
+import { device } from "../../assets/device";
+import FloatingMapButton from "./floatingMapButton";
+import CloseMobileMapButton from "./closeMobileMapButton";
+const Map: React.FC<{}> = () => {
+  const [mobileMapIsActive, setMobileMapActive] = useState<boolean>(false);
 
-import styled from "styled-components";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import { useEffect, useState } from "react";
+  const handleMobileMapActive = () => {
+    setMobileMapActive((prevState) => !prevState);
+  };
 
-const Map: React.FC = () => {
-  const [isBrowser, setIsBrowser] = useState(false);
-  const [map, setMap] = useState<L.Map>();
-
-  const icon = L.icon({
-    iconUrl: "/img/marker.min.svg",
-    iconSize: [35, 55],
-    iconAnchor: [5, 55],
-  });
-
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
-
-  useEffect(() => {
-    if (map) {
-      setInterval(function () {
-        map.invalidateSize();
-      }, 100);
-    }
-  }, [map]);
-
-  if (!isBrowser) {
-    return null;
-  }
+  const MapWithNoSSR = React.useMemo(
+    () =>
+      dynamic(() => import("./map"), {
+        loading: () => <p>A map is loading</p>,
+        ssr: false,
+      }),
+    []
+  );
 
   return (
-    <StyledMap
-      center={[50.05408720089961, 19.935244094164165]}
-      zoom={13}
-      scrollWheelZoom={true}
-      whenCreated={setMap}
-    >
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[50.05408720089961, 19.935244094164165]} icon={icon}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-    </StyledMap>
+    <>
+      <MapContainer mobileMapIsActive={mobileMapIsActive}>
+        <CloseMobileMapButton handleClick={handleMobileMapActive} />
+        <MapWithNoSSR />
+      </MapContainer>
+      <FloatingMapButton handleClick={handleMobileMapActive} />
+    </>
   );
 };
 
 export default Map;
 
-const StyledMap = styled(MapContainer)`
-  width: 100%;
+type MapContainerProps = {
+  mobileMapIsActive: boolean;
+};
+
+const MapContainer = styled.section<MapContainerProps>`
+  display: block;
+  width: 50%;
   height: 100%;
+  padding: 1rem;
+  @media ${device.laptop} {
+    display: none;
+
+    ${({ mobileMapIsActive }) =>
+      mobileMapIsActive &&
+      css`
+        z-index: 2;
+        width: 100%;
+        display: block;
+        position: absolute;
+        left: 0;
+        height: calc(100vh - 50px);
+      `}
+  }
 `;
