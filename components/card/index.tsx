@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({
   text,
 }) => {
   return (
-    <Link href={`monument/Wawel`}>
+    <Link href={`monument/${title}`}>
       <a>
         <CardContainer>
           <CardImageContainer>

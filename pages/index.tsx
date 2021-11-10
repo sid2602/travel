@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       <TemporaryCardsContainer>
         <Card
           imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
+          title={"Zamek Królewski na Wawelu"}
           subTitle={"Krakow, Poland"}
           text={
             "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         />
         <Card
           imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
+          title={"Zamek Królewski na Wawelu"}
           subTitle={"Krakow, Poland"}
           text={
             "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
@@ -28,7 +28,7 @@ const Home: NextPage = () => {
         />
         <Card
           imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
+          title={"Zamek Królewski na Wawelu"}
           subTitle={"Krakow, Poland"}
           text={
             "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         />
         <Card
           imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
+          title={"Zamek Królewski na Wawelu"}
           subTitle={"Krakow, Poland"}
           text={
             "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
