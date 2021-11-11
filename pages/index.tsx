@@ -3,45 +3,59 @@ import Navbar from "../components/navbar";
 import Card from "../components/card";
 import styled from "styled-components";
 import { device } from "../assets/device";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Map from "../components/map";
 import AppContainer from "../components/appContainer";
+import { collection, getFirestore, query, where } from "firebase/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
+import firebase from "../firebase/clientApp";
+import { ReducedMonument } from "../models/reducedMonument";
 const Home: NextPage = () => {
+  const [monuments, setMonuments] = useState<[ReducedMonument]>();
+  const monumentRef = collection(getFirestore(firebase), "/monuments");
+  const [snapshot, loading, error] = useCollection(
+    query(monumentRef, where("city", "==", "Kraków")),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+
+  useEffect(() => {
+    if (loading == false) {
+      setMonuments(
+        snapshot?.docs.map((doc) => {
+          return {
+            city: doc.get("city"),
+            country: doc.get("country"),
+            description: doc.get("description"),
+            img: doc.get("img"),
+            lat: doc.get("lat"),
+            lng: doc.get("lng"),
+            name: doc.get("name"),
+          };
+        }) as [ReducedMonument]
+      );
+    }
+  }, [loading, snapshot]);
+
+  const Cards = useMemo(
+    () =>
+      monuments?.map((monument) => (
+        <Card
+          key={monument?.name}
+          imgSrc={monument?.img}
+          title={monument?.name}
+          subTitle={monument?.city + ", " + monument?.country}
+          text={monument?.description.substr(0, 200)}
+        />
+      )),
+    [monuments]
+  );
+
   return (
     <AppContainer>
       <TemporaryCardsContainer>
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Zamek Królewski na Wawelu"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Zamek Królewski na Wawelu"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Zamek Królewski na Wawelu"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Zamek Królewski na Wawelu"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
+        {loading ? <div> loading </div> : <>{Cards}</>}
       </TemporaryCardsContainer>
       <Map />
     </AppContainer>
