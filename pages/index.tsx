@@ -10,6 +10,7 @@ import { collection, getFirestore, query, where } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import firebase from "../firebase/clientApp";
 import { ReducedMonument } from "../models/reducedMonument";
+import { Marker } from "../models/marker";
 const Home: NextPage = () => {
   const [monuments, setMonuments] = useState<[ReducedMonument]>();
   const monumentRef = collection(getFirestore(firebase), "/monuments");
@@ -52,12 +53,25 @@ const Home: NextPage = () => {
     [monuments]
   );
 
+  const markers = useMemo(
+    () =>
+      monuments?.map(
+        (monument) =>
+          ({
+            lat: monument.lat,
+            lng: monument.lng,
+            text: monument.name,
+          } as Marker)
+      ),
+    [monuments]
+  );
+
   return (
     <AppContainer>
       <TemporaryCardsContainer>
         {loading ? <div> loading </div> : <>{Cards}</>}
       </TemporaryCardsContainer>
-      <Map />
+      <Map markers={markers} />
     </AppContainer>
   );
 };

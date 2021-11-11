@@ -5,7 +5,13 @@ import styled, { css } from "styled-components";
 import { device } from "../../assets/device";
 import FloatingMapButton from "./floatingMapButton";
 import CloseMobileMapButton from "./closeMobileMapButton";
-const Map: React.FC<{}> = () => {
+import { Marker } from "../../models/marker";
+
+type MapProps = {
+  markers: Marker[] | undefined;
+};
+
+const Map: React.FC<MapProps> = ({ markers }) => {
   const [mobileMapIsActive, setMobileMapActive] = useState<boolean>(false);
 
   const handleMobileMapActive = () => {
@@ -18,14 +24,14 @@ const Map: React.FC<{}> = () => {
         loading: () => <p>A map is loading</p>,
         ssr: false,
       }),
-    []
+    [markers]
   );
 
   return (
     <>
       <MapContainer mobileMapIsActive={mobileMapIsActive}>
         <CloseMobileMapButton handleClick={handleMobileMapActive} />
-        <MapWithNoSSR />
+        <MapWithNoSSR markers={markers} />
       </MapContainer>
       <FloatingMapButton handleClick={handleMobileMapActive} />
     </>

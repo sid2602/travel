@@ -3,9 +3,14 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import styled from "styled-components";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Marker as MarkerModel } from "../../models/marker";
 
-const Map: React.FC = () => {
+type MapProps = {
+  markers: MarkerModel[] | undefined;
+};
+
+const Map: React.FC<MapProps> = ({ markers }) => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [map, setMap] = useState<L.Map>();
 
@@ -42,11 +47,11 @@ const Map: React.FC = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[50.05408720089961, 19.935244094164165]} icon={icon}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      {markers?.map(({ lat, lng, text }) => (
+        <Marker position={[lat, lng]} icon={icon} key={`${lat}${lng}`}>
+          <Popup>{text}</Popup>
+        </Marker>
+      ))}
     </StyledMap>
   );
 };
