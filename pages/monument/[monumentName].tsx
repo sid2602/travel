@@ -1,13 +1,10 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { device } from "../../assets/device";
 import AppContainer from "../../components/appContainer";
 import Map from "../../components/map";
-import firebase from "../../firebase/clientApp";
-import { getFirestore, query, where } from "firebase/firestore";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
+import { useActiveMonument } from "../../hooks/useActiveMonument";
 
 type MonumentProps = {};
 
@@ -15,23 +12,10 @@ const Monument: React.FC<MonumentProps> = () => {
   const {
     query: { monumentName },
   } = useRouter();
-  const [monument, setMonument] = useState<any>(null);
-  const monumentRef = collection(getFirestore(firebase), "/monuments");
-  const [snapshot, loading, error] = useCollection(
-    query(
-      monumentRef,
-      where("name", "==", monumentName == undefined ? "" : monumentName)
-    ),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
 
-  useEffect(() => {
-    if (loading == false) {
-      setMonument(snapshot?.docs[0]?.data());
-    }
-  }, [loading, snapshot]);
+  const { activeMonument, loading, error } = useActiveMonument(
+    monumentName as string
+  );
 
   return (
     <AppContainer>
@@ -41,10 +25,10 @@ const Monument: React.FC<MonumentProps> = () => {
         ) : (
           <>
             <ImageContainer>
-              <Image src={monument?.img} />
+              <Image src={activeMonument?.img} />
             </ImageContainer>
             <Header>
-              <HeadLine>{monument?.monumentName}</HeadLine>
+              <HeadLine>{activeMonument?.name}</HeadLine>
             </Header>
             <MonumentSections>
               <MonumentInfo>
@@ -52,7 +36,7 @@ const Monument: React.FC<MonumentProps> = () => {
                   <MonumentInfoHeadline>Opis</MonumentInfoHeadline>
                 </MonumentInfoHeader>
                 <MonumentInfoDescription>
-                  {monument?.description}
+                  {activeMonument?.description}
                 </MonumentInfoDescription>
               </MonumentInfo>
             </MonumentSections>
