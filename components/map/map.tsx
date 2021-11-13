@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useMemo, useState } from "react";
 import { Marker as MarkerModel } from "../../models/marker";
+import { useMonumentsContext } from "../../contexts/Monuments";
 
 type MapProps = {
   markers: MarkerModel[] | undefined;

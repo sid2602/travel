@@ -1,47 +1,18 @@
 import type { NextPage } from "next";
-import Navbar from "../components/navbar";
 import Card from "../components/card";
 import styled from "styled-components";
 import { device } from "../assets/device";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Map from "../components/map";
 import AppContainer from "../components/appContainer";
-import { collection, getFirestore, query, where } from "firebase/firestore";
-import { useCollection } from "react-firebase-hooks/firestore";
-import firebase from "../firebase/clientApp";
-import { ReducedMonument } from "../models/reducedMonument";
 import { Marker } from "../models/marker";
+import { useMonumentsContext } from "../contexts/Monuments";
 const Home: NextPage = () => {
-  const [monuments, setMonuments] = useState<[ReducedMonument]>();
-  const monumentRef = collection(getFirestore(firebase), "/monuments");
-  const [snapshot, loading, error] = useCollection(
-    query(monumentRef, where("city", "==", "Kraków")),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
-
-  useEffect(() => {
-    if (loading == false) {
-      setMonuments(
-        snapshot?.docs.map((doc) => {
-          return {
-            city: doc.get("city"),
-            country: doc.get("country"),
-            description: doc.get("description"),
-            img: doc.get("img"),
-            lat: doc.get("lat"),
-            lng: doc.get("lng"),
-            name: doc.get("name"),
-          };
-        }) as [ReducedMonument]
-      );
-    }
-  }, [loading, snapshot]);
+  const { monuments, loading, error } = useMonumentsContext();
 
   const Cards = useMemo(
     () =>
-      monuments?.map((monument) => (
+      monuments.map((monument) => (
         <Card
           key={monument?.name}
           imgSrc={monument?.img}
@@ -53,25 +24,12 @@ const Home: NextPage = () => {
     [monuments]
   );
 
-  const markers = useMemo(
-    () =>
-      monuments?.map(
-        (monument) =>
-          ({
-            lat: monument.lat,
-            lng: monument.lng,
-            text: monument.name,
-          } as Marker)
-      ),
-    [monuments]
-  );
-
   return (
     <AppContainer>
       <TemporaryCardsContainer>
-        {loading ? <div> loading </div> : <>{Cards}</>}
+        {loading ? <div>loading</div> : Cards}
       </TemporaryCardsContainer>
-      <Map markers={markers} />
+      <Map />
     </AppContainer>
   );
 };

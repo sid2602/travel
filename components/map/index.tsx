@@ -1,22 +1,32 @@
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useMemo } from "react";
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import { device } from "../../assets/device";
 import FloatingMapButton from "./floatingMapButton";
 import CloseMobileMapButton from "./closeMobileMapButton";
 import { Marker } from "../../models/marker";
+import { useMonumentsContext } from "../../contexts/Monuments";
 
-type MapProps = {
-  markers: Marker[] | undefined;
-};
+type MapProps = {};
 
-const Map: React.FC<MapProps> = ({ markers }) => {
+const Map: React.FC<MapProps> = () => {
   const [mobileMapIsActive, setMobileMapActive] = useState<boolean>(false);
+  const { monuments } = useMonumentsContext();
 
   const handleMobileMapActive = () => {
     setMobileMapActive((prevState) => !prevState);
   };
+
+  const markers: Marker[] = useMemo(
+    () =>
+      monuments?.map((monument) => ({
+        lat: monument.lat,
+        lng: monument.lng,
+        text: monument.name,
+      })),
+    [monuments]
+  );
 
   const MapWithNoSSR = React.useMemo(
     () =>
