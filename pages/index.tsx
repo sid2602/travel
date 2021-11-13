@@ -1,47 +1,33 @@
 import type { NextPage } from "next";
-import Navbar from "../components/navbar";
 import Card from "../components/card";
 import styled from "styled-components";
 import { device } from "../assets/device";
-import React from "react";
+import React, { useMemo } from "react";
 import Map from "../components/map";
 import AppContainer from "../components/appContainer";
+import { Marker } from "../models/marker";
+import { useMonumentsContext } from "../contexts/Monuments";
 const Home: NextPage = () => {
+  const { monuments, loading, error } = useMonumentsContext();
+
+  const Cards = useMemo(
+    () =>
+      monuments.map((monument) => (
+        <Card
+          key={monument?.name}
+          imgSrc={monument?.img}
+          title={monument?.name}
+          subTitle={monument?.city + ", " + monument?.country}
+          text={monument?.description.substr(0, 200)}
+        />
+      )),
+    [monuments]
+  );
+
   return (
     <AppContainer>
       <TemporaryCardsContainer>
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
-        <Card
-          imgSrc={"img/wawel.jpg"}
-          title={"Wawel Castle"}
-          subTitle={"Krakow, Poland"}
-          text={
-            "Zamek Królewski na Wawelu jest renesansową rezydencją królewską, znajdującą się Wzgórzu Wawelskim, nieopodal zakola rzeki Wisły.Jest dwupiętrową budowlą o charakterze renesansowym, barokowym oraz z elementami klasycyzmu. Znajduje się tu dziedziniec z krużgankami"
-          }
-        />
+        {loading ? <div>loading</div> : Cards}
       </TemporaryCardsContainer>
       <Map />
     </AppContainer>
