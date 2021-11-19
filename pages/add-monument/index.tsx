@@ -2,6 +2,8 @@ import AppContainer from "../../components/appContainer";
 import styled from "styled-components";
 import React from "react";
 import FormField from "../../components/formField";
+import TextArea from "../../components/textArea";
+import TextAreaFormFiled from "../../components/textAreaFormFiled";
 
 const AddMonument: React.FC<{}> = () => {
   return (
@@ -13,8 +15,17 @@ const AddMonument: React.FC<{}> = () => {
           </CardHeader>
           <CardBody>
             <FormField placeholder="Nazwa zabytku" />
-            <FormField placeholder="Nazwa zabytku" />
-            <FormField placeholder="Nazwa zabytku" />
+            <DoubleFiledContainer>
+              <FormField placeholder="Miejscowość" />
+              <FormField placeholder="Kraj" />
+            </DoubleFiledContainer>
+            <DoubleFiledContainer>
+              <FormField placeholder="Lat" />
+              <FormField placeholder="Lng" />
+            </DoubleFiledContainer>
+            <FormField placeholder="Link do zdjęcia" />
+            <TextAreaFormFiled placeholder="hi" />
+            <SubmitButton>Zapisz</SubmitButton>
           </CardBody>
         </Card>
       </Container>
@@ -60,4 +71,22 @@ const CardBody = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: 100%;
+`;
+
+const DoubleFiledContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  background-color: #c4c4c4;
+  font-size: ${({ theme }) => theme.fontSizes.button};
+  font-weight: 500;
+  border-radius: 10px;
+  color: white;
+  letter-spacing: 1px;
 `;

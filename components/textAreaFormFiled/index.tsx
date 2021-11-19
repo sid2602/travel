@@ -1,25 +1,27 @@
-import Input from "../input";
 import styled from "styled-components";
+import TextArea from "../textArea";
 
-interface FormFiledProps {
+interface TextAreaFormFiledProps {
   placeholder: string;
 }
 
-const FormField: React.FC<FormFiledProps> = ({ placeholder }) => {
+const TextAreaFormFiled: React.FC<TextAreaFormFiledProps> = ({
+  placeholder,
+}) => {
   return (
     <Container>
       <FormFiledPlaceholder>{placeholder}</FormFiledPlaceholder>
-      <Input value="hi" onChange={() => {}} />
+      <TextArea value="hi" onChange={() => {}} />
     </Container>
   );
 };
 
-export default FormField;
+export default TextAreaFormFiled;
 
 const Container = styled.div`
   margin: 1rem 0;
   width: 100%;
-  height: 62px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
