@@ -2,10 +2,31 @@ import AppContainer from "../../components/appContainer";
 import styled from "styled-components";
 import React from "react";
 import FormField from "../../components/formField";
-import TextArea from "../../components/textArea";
 import TextAreaFormFiled from "../../components/textAreaFormFiled";
+import { useForm, FormProvider } from "react-hook-form";
+import * as yup from "yup";
+import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
+
+const schema = yup
+  .object({
+    monumentName: yup.string().required("Nazwa zabytku jest wymagana"),
+    city: yup.string().required("Miejscowość jest wymagana"),
+    country: yup.string().required("Kraj jest wymagany"),
+    lat: yup.number().required("lat jest wymagana"),
+    lng: yup.number().required("lng jest wymagany"),
+    photoUrl: yup.string().required("Link do zdjęcia jest wymagany"),
+    description: yup.string().required("Opis jest wymagany"),
+  })
+  .required();
 
 const AddMonument: React.FC<{}> = () => {
+  const resolver = useYupValidationResolver(schema);
+  const methods = useForm({ resolver });
+  const onSubmit = (data: any) => console.log(data);
+  const {
+    formState: { errors },
+  } = methods;
+
   return (
     <AppContainer>
       <Container>
@@ -14,18 +35,52 @@ const AddMonument: React.FC<{}> = () => {
             <CardHeading>Heading</CardHeading>
           </CardHeader>
           <CardBody>
-            <FormField placeholder="Nazwa zabytku" />
-            <DoubleFiledContainer>
-              <FormField placeholder="Miejscowość" />
-              <FormField placeholder="Kraj" />
-            </DoubleFiledContainer>
-            <DoubleFiledContainer>
-              <FormField placeholder="Lat" />
-              <FormField placeholder="Lng" />
-            </DoubleFiledContainer>
-            <FormField placeholder="Link do zdjęcia" />
-            <TextAreaFormFiled placeholder="hi" />
-            <SubmitButton>Zapisz</SubmitButton>
+            <FormProvider {...methods}>
+              <Form onSubmit={methods.handleSubmit(onSubmit)}>
+                <FormField
+                  placeholder="Nazwa zabytku"
+                  name="monumentName"
+                  errorMessage={errors.monumentName?.message}
+                />
+                <DoubleFiledContainer>
+                  <FormField
+                    placeholder="Miejscowość"
+                    name="city"
+                    errorMessage={errors.city?.message}
+                  />
+                  <FormField
+                    placeholder="Kraj"
+                    name="country"
+                    errorMessage={errors.country?.message}
+                  />
+                </DoubleFiledContainer>
+                <DoubleFiledContainer>
+                  <FormField
+                    placeholder="Lat"
+                    name="lat"
+                    errorMessage={errors.lat?.message}
+                  />
+                  <FormField
+                    placeholder="Lng"
+                    name="lng"
+                    errorMessage={errors.lng?.message}
+                  />
+                </DoubleFiledContainer>
+                <FormField
+                  placeholder="Link do zdjęcia"
+                  name="photoUrl"
+                  errorMessage={errors.photoUrl?.message}
+                />
+                <TextAreaContainer>
+                  <TextAreaFormFiled
+                    placeholder="hi"
+                    name="description"
+                    errorMessage={errors.description?.message}
+                  />
+                </TextAreaContainer>
+                <SubmitButton type="submit">Zapisz</SubmitButton>
+              </Form>
+            </FormProvider>
           </CardBody>
         </Card>
       </Container>
@@ -73,6 +128,10 @@ const CardBody = styled.div`
   height: 100%;
 `;
 
+const Form = styled.form`
+  width: 100%;
+`;
+
 const DoubleFiledContainer = styled.div`
   display: flex;
   width: 100%;
@@ -89,4 +148,9 @@ const SubmitButton = styled.button`
   border-radius: 10px;
   color: white;
   letter-spacing: 1px;
+`;
+
+const TextAreaContainer = styled.div`
+  height: 150px;
+  margin: 1rem 0;
 `;

@@ -1,14 +1,23 @@
+import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
 interface TextAreaProps {
   value?: string | number;
   onChange?: (e: React.FormEvent<any>) => void;
+  name: string;
 }
 
-const TextArea: React.FC<TextAreaProps> = ({ value, onChange }) => {
+const TextArea: React.FC<TextAreaProps> = ({ value, onChange, name }) => {
+  const { register } = useFormContext();
+
   return (
     <Container>
-      <TextAreaStyled value={value} onChange={onChange} />
+      <TextAreaStyled
+        {...register(name)}
+        value={value}
+        onChange={onChange}
+        name={name}
+      />
     </Container>
   );
 };
@@ -18,7 +27,7 @@ export default TextArea;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  height: 120px;
+  height: 100%;
   position: relative;
   border-radius: 5px;
   border-color: #d6d6d6;

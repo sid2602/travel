@@ -1,0 +1,36 @@
+import { useCallback } from "react";
+import { RequiredObjectSchema } from "yup/lib/object";
+import * as yup from "yup";
+
+export const useYupValidationResolver = (
+  validationSchema: yup.AnyObjectSchema
+) =>
+  useCallback(
+    async (data) => {
+      try {
+        const values = await validationSchema.validate(data, {
+          abortEarly: false,
+        });
+
+        return {
+          values,
+          errors: {} as any,
+        };
+      } catch (errors: any) {
+        return {
+          values: {},
+          errors: errors.inner.reduce(
+            (allErrors: any, currentError: any) => ({
+              ...allErrors,
+              [currentError.path]: {
+                type: currentError.type ?? "validation",
+                message: currentError.message,
+              },
+            }),
+            {}
+          ) as any,
+        };
+      }
+    },
+    [validationSchema]
+  );

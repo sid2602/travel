@@ -24,6 +24,8 @@ const lightColors = {
 const LightTheme = {
   fontSizes,
   colors: {
+    primary: "#ff8e3c",
+    error: "#B00020",
     ...lightColors,
   },
 };

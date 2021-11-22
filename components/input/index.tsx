@@ -1,15 +1,33 @@
+import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
 interface InputProps {
+  name: string;
   value?: string | number;
   onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
   type?: string;
+  validate?: any;
 }
 
-const Input: React.FC<InputProps> = ({ value, type, onChange }) => {
+const Input: React.FC<InputProps> = ({
+  value,
+  name,
+  type,
+  onChange,
+  ...rest
+}) => {
+  const { register } = useFormContext();
+
   return (
     <Container>
-      <InputStyled type={type} value={value} onChange={onChange} />
+      <InputStyled
+        {...register(name)}
+        onChange={onChange}
+        {...rest}
+        type={type}
+        name={name}
+        value={value}
+      />
     </Container>
   );
 };
