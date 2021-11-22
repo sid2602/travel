@@ -4,25 +4,23 @@ import React from "react";
 import FormField from "../../components/formField";
 import TextAreaFormFiled from "../../components/textAreaFormFiled";
 import { useForm, FormProvider } from "react-hook-form";
-import * as yup from "yup";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
-
-const schema = yup
-  .object({
-    monumentName: yup.string().required("Nazwa zabytku jest wymagana"),
-    city: yup.string().required("Miejscowość jest wymagana"),
-    country: yup.string().required("Kraj jest wymagany"),
-    lat: yup.number().required("lat jest wymagana"),
-    lng: yup.number().required("lng jest wymagany"),
-    photoUrl: yup.string().required("Link do zdjęcia jest wymagany"),
-    description: yup.string().required("Opis jest wymagany"),
-  })
-  .required();
+import AddMonumentSchema from "../../schemas/addMonumentSchema";
+import firebase from "../../firebase/clientApp";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
 const AddMonument: React.FC<{}> = () => {
-  const resolver = useYupValidationResolver(schema);
+  const resolver = useYupValidationResolver(AddMonumentSchema);
   const methods = useForm({ resolver });
-  const onSubmit = (data: any) => console.log(data);
+  const uuid = uuidv4();
+  const onSubmit = async (data: any) => {
+    try {
+      await setDoc(doc(getFirestore(firebase), "monuments", uuid), data);
+    } catch (e) {
+      console.error(`can't save monument in db`);
+    }
+  };
   const {
     formState: { errors },
   } = methods;
@@ -32,7 +30,7 @@ const AddMonument: React.FC<{}> = () => {
       <Container>
         <Card>
           <CardHeader>
-            <CardHeading>Heading</CardHeading>
+            <CardHeading>Dodaj zabytek</CardHeading>
           </CardHeader>
           <CardBody>
             <FormProvider {...methods}>
@@ -73,7 +71,7 @@ const AddMonument: React.FC<{}> = () => {
                 />
                 <TextAreaContainer>
                   <TextAreaFormFiled
-                    placeholder="hi"
+                    placeholder="Opis"
                     name="description"
                     errorMessage={errors.description?.message}
                   />
