@@ -27,12 +27,9 @@ export const useMonumentsContext = () => useContext(MonumentsContext);
 export const MonumentsProvider: React.FC<{}> = ({ children }) => {
   const [monuments, setMonuments] = useState<ReducedMonument[]>([]);
   const monumentRef = collection(getFirestore(firebase), "/monuments");
-  const [snapshot, loading, error] = useCollection(
-    query(monumentRef, where("city", "==", "Kraków")),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
+  const [snapshot, loading, error] = useCollection(monumentRef, {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
 
   useEffect(() => {
     if (loading == false) {
