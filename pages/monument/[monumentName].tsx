@@ -19,36 +19,43 @@ const Monument: React.FC<MonumentProps> = () => {
 
   return (
     <AppContainer>
-      <InfoContainer>
-        {loading ? (
-          <div>loading</div>
-        ) : (
-          <>
-            <ImageContainer>
-              <Image src={activeMonument?.img} />
-            </ImageContainer>
-            <Header>
-              <HeadLine>{activeMonument?.name}</HeadLine>
-            </Header>
-            <MonumentSections>
-              <MonumentInfo>
-                <MonumentInfoHeader>
-                  <MonumentInfoHeadline>Opis</MonumentInfoHeadline>
-                </MonumentInfoHeader>
-                <MonumentInfoDescription>
-                  {activeMonument?.description}
-                </MonumentInfoDescription>
-              </MonumentInfo>
-            </MonumentSections>
-          </>
-        )}
-      </InfoContainer>
-      <Map />
+      <RowContainer>
+        <InfoContainer>
+          {loading ? (
+            <div>loading</div>
+          ) : (
+            <>
+              <ImageContainer>
+                <Image src={activeMonument?.img} />
+              </ImageContainer>
+              <Header>
+                <HeadLine>{activeMonument?.name}</HeadLine>
+              </Header>
+              <MonumentSections>
+                <MonumentInfo>
+                  <MonumentInfoHeader>
+                    <MonumentInfoHeadline>Opis</MonumentInfoHeadline>
+                  </MonumentInfoHeader>
+                  <MonumentInfoDescription>
+                    {activeMonument?.description}
+                  </MonumentInfoDescription>
+                </MonumentInfo>
+              </MonumentSections>
+            </>
+          )}
+        </InfoContainer>
+        <Map />
+      </RowContainer>
     </AppContainer>
   );
 };
 
 export default Monument;
+
+const RowContainer = styled.section`
+  display: flex;
+  height: 100%;
+`;
 
 const InfoContainer = styled.section`
   width: 50%;

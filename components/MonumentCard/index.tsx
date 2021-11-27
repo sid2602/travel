@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { device } from "../../assets/device";
 import Link from "next/link";
+import React, { useState } from "react";
 type MonumentCardProps = {
   imgSrc?: string;
   title: string;
@@ -35,7 +36,6 @@ const MonumentCard: React.FC<MonumentCardProps> = ({
 export default MonumentCard;
 
 const MonumentCardContainer = styled.article`
-  max-width: 700px;
   width: 100%;
   border-radius: 10px;
   height: 200px;

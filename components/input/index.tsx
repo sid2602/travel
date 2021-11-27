@@ -7,6 +7,7 @@ interface InputProps {
   onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
   type?: string;
   validate?: any;
+  placeholder?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -14,9 +15,25 @@ const Input: React.FC<InputProps> = ({
   name,
   type,
   onChange,
+  placeholder,
   ...rest
 }) => {
-  const { register } = useFormContext();
+  const register = useFormContext() && useFormContext().register;
+
+  if (register === null) {
+    return (
+      <Container>
+        <InputStyled
+          placeholder={placeholder}
+          onChange={onChange}
+          {...rest}
+          type={type}
+          name={name}
+          value={value}
+        />
+      </Container>
+    );
+  }
 
   return (
     <Container>
