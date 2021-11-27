@@ -9,14 +9,18 @@ import AddMonumentSchema from "../../schemas/addMonumentSchema";
 import firebase from "../../firebase/clientApp";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { Monument } from "../../models/monument";
+
+import { Card } from "../../components/Card";
 
 const AddMonument: React.FC<{}> = () => {
   const resolver = useYupValidationResolver(AddMonumentSchema);
   const methods = useForm({ resolver });
   const uuid = uuidv4();
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: Monument) => {
     try {
       await setDoc(doc(getFirestore(firebase), "monuments", uuid), data);
+      alert("Saved");
     } catch (e) {
       console.error(`can't save monument in db`);
     }
@@ -29,15 +33,15 @@ const AddMonument: React.FC<{}> = () => {
     <AppContainer>
       <Container>
         <Card>
-          <CardHeader>
-            <CardHeading>Dodaj zabytek</CardHeading>
-          </CardHeader>
-          <CardBody>
+          <Card.Header>
+            <Card.Heading> Dodaj zabytek</Card.Heading>{" "}
+          </Card.Header>
+          <Card.Body>
             <FormProvider {...methods}>
               <Form onSubmit={methods.handleSubmit(onSubmit)}>
                 <FormField
                   placeholder="Nazwa zabytku"
-                  name="monumentName"
+                  name="name"
                   errorMessage={errors.monumentName?.message}
                 />
                 <DoubleFiledContainer>
@@ -66,7 +70,7 @@ const AddMonument: React.FC<{}> = () => {
                 </DoubleFiledContainer>
                 <FormField
                   placeholder="Link do zdjęcia"
-                  name="photoUrl"
+                  name="img"
                   errorMessage={errors.photoUrl?.message}
                 />
                 <TextAreaContainer>
@@ -79,7 +83,7 @@ const AddMonument: React.FC<{}> = () => {
                 <SubmitButton type="submit">Zapisz</SubmitButton>
               </Form>
             </FormProvider>
-          </CardBody>
+          </Card.Body>
         </Card>
       </Container>
     </AppContainer>
@@ -94,36 +98,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Card = styled.div`
-  width: 100%;
-  min-width: 300px;
-  max-width: 500px;
-  padding: 2rem;
-  border-radius: 5px;
-  border: 0.5px solid #d6d6d6;
-  -webkit-box-shadow: 0px 7px 19px -12px rgba(170, 170, 170, 1);
-  -moz-box-shadow: 0px 7px 19px -12px rgba(170, 170, 170, 1);
-  box-shadow: 0px 7px 19px -12px rgba(170, 170, 170, 1);
-`;
-
-const CardHeader = styled.header`
-  width: 100%;
-  height: 50px;
-  border-bottom: 1px solid #d6d6d6;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const CardHeading = styled.h5`
-  font-size: ${({ theme }) => theme.fontSizes.headline5};
-`;
-
-const CardBody = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
 `;
 
 const Form = styled.form`
@@ -143,7 +117,7 @@ const SubmitButton = styled.button`
   background-color: #c4c4c4;
   font-size: ${({ theme }) => theme.fontSizes.button};
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: 5px;
   color: white;
   letter-spacing: 1px;
 `;

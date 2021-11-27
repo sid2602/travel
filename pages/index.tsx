@@ -1,11 +1,10 @@
 import type { NextPage } from "next";
-import Card from "../components/card";
+import MonumentCard from "../components/MonumentCard";
 import styled from "styled-components";
 import { device } from "../assets/device";
 import React, { useMemo } from "react";
 import Map from "../components/map";
 import AppContainer from "../components/appContainer";
-import { Marker } from "../models/marker";
 import { useMonumentsContext } from "../contexts/Monuments";
 const Home: NextPage = () => {
   const { monuments, loading, error } = useMonumentsContext();
@@ -13,7 +12,7 @@ const Home: NextPage = () => {
   const Cards = useMemo(
     () =>
       monuments.map((monument) => (
-        <Card
+        <MonumentCard
           key={monument?.name}
           imgSrc={monument?.img}
           title={monument?.name}
