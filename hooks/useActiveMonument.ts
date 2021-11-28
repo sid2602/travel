@@ -8,7 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { Monument } from "../models/monument";
-import firebase from "../firebase/clientApp";
+import { db } from "../firebase/clientApp";
 
 export interface UseActiveMonumentReturn {
   activeMonument: Monument | null;
@@ -18,7 +18,7 @@ export interface UseActiveMonumentReturn {
 
 export const useActiveMonument = (monumentName: string) => {
   const [activeMonument, setActiveMonument] = useState<Monument | null>(null);
-  const monumentRef = collection(getFirestore(firebase), "/monuments");
+  const monumentRef = collection(db, "/monuments");
   const [snapshot, loading, error] = useCollection(
     query(
       monumentRef,

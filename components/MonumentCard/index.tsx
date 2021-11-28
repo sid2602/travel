@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { device } from "../../assets/device";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 type MonumentCardProps = {
   imgSrc?: string;
   title: string;
@@ -98,6 +98,7 @@ const SubTitle = styled.h6`
   font-size: ${({ theme }) => theme.fontSizes.subtitle2};
   font-weight: 400;
   padding-bottom: 1.2rem;
+  text-transform: capitalize;
 `;
 
 const Text = styled.p`

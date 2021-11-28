@@ -16,7 +16,11 @@ export const AddMonumentForm: React.FC<{}> = () => {
   const uuid = uuidv4();
   const onSubmit = async (data: Monument) => {
     try {
-      await setDoc(doc(getFirestore(firebase), "monuments", uuid), data);
+      await setDoc(doc(getFirestore(firebase), "monuments", uuid), {
+        ...data,
+        country: data.country.toLocaleLowerCase(),
+        city: data.city.toLocaleLowerCase(),
+      } as Monument);
       alert("Saved");
     } catch (e) {
       console.error(`can't save monument in db`);
