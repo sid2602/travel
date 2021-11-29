@@ -1,41 +1,30 @@
-import { collection, query, where } from "firebase/firestore";
 import styled from "styled-components";
 import Input from "../input/index";
-import { db } from "../../firebase/clientApp";
-import { useCollection } from "react-firebase-hooks/firestore";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { City } from "../../models/city";
 import { SearchOptions } from "./SearchOptions";
 import { SearchInputResultType } from "../../assets/enums/SearchInputResultType";
 import { Place } from "../../models/place";
-
+import { Monument } from "../../models/monument";
+import useSearchCollectionByText from "../../hooks/useSearchCollectionByText";
 interface SearchInfoProps {
   value: string;
   onChange: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export const SearchInput: React.FC<SearchInfoProps> = ({ value, onChange }) => {
-  const [cities, setCities] = useState<City[]>([]);
+  const {
+    response: cities,
+    loading: citiesLoading,
+    error: citiesError,
+  } = useSearchCollectionByText("cities", "name", value);
+  const {
+    response: monuments,
+    loading: monumentsLoading,
+    error: monumentsError,
+  } = useSearchCollectionByText("monuments", "searchableName", value);
 
-  const monumentRef = collection(db, "/cities");
-  const [citiesSnapshot, citiesFetchLoading, error] = useCollection(
-    query(
-      monumentRef,
-      where("name", ">=", value.toLocaleLowerCase()),
-      where("name", "<=", value.toLocaleLowerCase() + "\uf8ff")
-    ),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
-
-  useEffect(() => {
-    if (!citiesFetchLoading && !!citiesSnapshot) {
-      setCities(citiesSnapshot?.docs?.map((item) => item.data()) as City[]);
-    }
-  }, [citiesSnapshot, citiesFetchLoading]);
-
-  const convertToPlace = (data: City[]) => {
+  const convertToPlace = (data: City[] | Monument[]) => {
     return data.map(({ name, lat, lng }) => {
       return {
         name,
@@ -53,12 +42,21 @@ export const SearchInput: React.FC<SearchInfoProps> = ({ value, onChange }) => {
         value={value}
         onChange={onChange}
       />
-      {value?.length > 0 && (
+      {!citiesLoading && value?.length > 0 && (
         <SearchResultsContainer>
-          <SearchOptions
-            category={SearchInputResultType.City}
-            places={convertToPlace(cities)}
-          />
+          {cities.length > 0 && (
+            <SearchOptions
+              category={SearchInputResultType.City}
+              places={convertToPlace(cities)}
+            />
+          )}
+
+          {!monumentsLoading && monuments.length > 0 && (
+            <SearchOptions
+              category={SearchInputResultType.Monument}
+              places={convertToPlace(monuments)}
+            />
+          )}
         </SearchResultsContainer>
       )}
     </Container>

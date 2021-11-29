@@ -20,6 +20,7 @@ export const AddMonumentForm: React.FC<{}> = () => {
         ...data,
         country: data.country.toLocaleLowerCase(),
         city: data.city.toLocaleLowerCase(),
+        searchableName: data.name.toLocaleLowerCase(),
       } as Monument);
       alert("Saved");
     } catch (e) {

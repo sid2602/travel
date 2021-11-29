@@ -6,4 +6,5 @@ export interface Monument {
   lat: number;
   lng: number;
   name: string;
+  searchableName: string;
 }
