@@ -1,11 +1,8 @@
+import React from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
-interface InputProps {
-  name: string;
-  value?: string | number;
-  onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
-  type?: string;
+interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   validate?: any;
   placeholder?: string;
 }
@@ -20,7 +17,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const register = useFormContext() && useFormContext().register;
 
-  if (register === null) {
+  if (register === null || name === undefined) {
     return (
       <Container>
         <InputStyled
@@ -48,10 +45,6 @@ const Input: React.FC<InputProps> = ({
       />
     </Container>
   );
-};
-
-Input.defaultProps = {
-  type: "text",
 };
 
 export default Input;

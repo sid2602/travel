@@ -41,6 +41,7 @@ export const SearchInput: React.FC<SearchInfoProps> = ({ value, onChange }) => {
         placeholder="Wyszukaj zabytek"
         value={value}
         onChange={onChange}
+        autoComplete="off"
       />
       {!citiesLoading && value?.length > 0 && (
         <SearchResultsContainer>
@@ -72,8 +73,8 @@ const SearchResultsContainer = styled.div`
   top: 33px;
   position: absolute;
   width: 100%;
-  height: 200px;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 0 0 5px 5px;
   border: 1px solid #d6d6d6;
+  padding-bottom: 0.5rem;
 `;

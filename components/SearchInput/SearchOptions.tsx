@@ -6,7 +6,7 @@ import {
 import { Place } from "../../models/place";
 import { FaPlaceOfWorship } from "react-icons/fa";
 import { GiModernCity } from "react-icons/gi";
-
+import Link from "next/link";
 interface SearchOptions {
   category: SearchInputResultType;
   places: Place[];
@@ -19,20 +19,30 @@ export const SearchOptions: React.FC<SearchOptions> = ({
   return (
     <Container>
       <Category>{transformToPluralSearchInputResultType(category)}</Category>
-      {places.map(({ name, lat, lng }) => (
-        <Result>
-          <ResultIconCon>
-            {category === SearchInputResultType.City ? (
-              <GiModernCity />
-            ) : (
-              <FaPlaceOfWorship />
-            )}
-          </ResultIconCon>
-          <ResultInfoCon>
-            <ResultInfoName>{name}</ResultInfoName>
-            <ResultInfoCategory>{category}</ResultInfoCategory>
-          </ResultInfoCon>
-        </Result>
+      {places.map(({ name }) => (
+        <Link
+          href={
+            category === SearchInputResultType.Monument
+              ? `/monument/${name}`
+              : "/"
+          }
+        >
+          <a>
+            <Result>
+              <ResultIconCon>
+                {category === SearchInputResultType.City ? (
+                  <GiModernCity />
+                ) : (
+                  <FaPlaceOfWorship />
+                )}
+              </ResultIconCon>
+              <ResultInfoCon>
+                <ResultInfoName>{name}</ResultInfoName>
+                <ResultInfoCategory>{category}</ResultInfoCategory>
+              </ResultInfoCon>
+            </Result>
+          </a>
+        </Link>
       ))}
     </Container>
   );
@@ -40,7 +50,6 @@ export const SearchOptions: React.FC<SearchOptions> = ({
 
 const Container = styled.div`
   width: 100%;
-  padding: 1rem;
 `;
 
 const Category = styled.div`
@@ -48,13 +57,18 @@ const Category = styled.div`
   color: ${({ theme }) => theme.colors.grey};
   font-weight: bold;
   letter-spacing: 0.4px;
-  margin-bottom: 1rem;
+  padding: 1rem 1rem 0.5rem 1rem;
 `;
 
 const Result = styled.div`
   width: 100%;
-  margin: 0.5rem 0 0.5rem 0.5rem;
+  padding: 0.5rem 0 0.5rem 1rem;
   display: flex;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightGray};
+  }
 `;
 
 const ResultIconCon = styled.div`

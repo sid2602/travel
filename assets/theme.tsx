@@ -19,6 +19,7 @@ const lightColors = {
   card: "#ffffff",
   shadow: "rgba(0,0,0,0.25)",
   grey: "#747474",
+  lightGray: "#f0f0f0",
 };
 
 const LightTheme = {
