@@ -27,7 +27,6 @@ const Input: React.FC<InputProps> = ({
           type={type}
           name={name}
           value={value}
-          onFocus={() => console.log("hi")}
         />
       </Container>
     );

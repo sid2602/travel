@@ -26,7 +26,8 @@ const useSearchCollectionByText = (
 
   useEffect(() => {
     if (!loading && !!responseSnapshot) {
-      setResponse(responseSnapshot?.docs?.map((item) => item.data()));
+      const mapedData = responseSnapshot?.docs?.map((item) => item.data());
+      setResponse(mapedData);
     }
   }, [responseSnapshot, loading]);
 
