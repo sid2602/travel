@@ -7,10 +7,15 @@ import FloatingMapButton from "./floatingMapButton";
 import CloseMobileMapButton from "./closeMobileMapButton";
 import { Marker } from "../../models/marker";
 import { useMonumentsContext } from "../../contexts/Monuments";
+import { useMapContext } from "../../contexts/MapContext";
 
 type MapProps = {};
 
 const Map: React.FC<MapProps> = () => {
+  const {
+    activePosition: { lat, lng },
+  } = useMapContext();
+
   const [mobileMapIsActive, setMobileMapActive] = useState<boolean>(false);
   const { monuments } = useMonumentsContext();
 
@@ -34,7 +39,7 @@ const Map: React.FC<MapProps> = () => {
         loading: () => <p>A map is loading</p>,
         ssr: false,
       }),
-    [markers]
+    [markers, lat, lng]
   );
 
   return (

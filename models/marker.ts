@@ -1,5 +1,5 @@
-export interface Marker {
-  lat: number;
-  lng: number;
+import { Position } from "./position";
+
+export interface Marker extends Position {
   text: string;
 }

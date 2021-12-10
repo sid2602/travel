@@ -5,7 +5,6 @@ import { device } from "../../assets/device";
 import AppContainer from "../../components/appContainer";
 import Map from "../../components/map";
 import { useActiveMonument } from "../../hooks/useActiveMonument";
-
 type MonumentProps = {};
 
 const Monument: React.FC<MonumentProps> = () => {

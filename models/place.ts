@@ -1,5 +1,5 @@
-export interface Place {
+import { Position } from "./position";
+
+export interface Place extends Position {
   name: string;
-  lng: number;
-  lat: number;
 }

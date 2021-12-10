@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { Monument } from "../models/monument";
 import { db } from "../firebase/clientApp";
+import { useMapContext } from "../contexts/MapContext";
 
 export interface UseActiveMonumentReturn {
   activeMonument: Monument | null;
@@ -19,6 +20,8 @@ export interface UseActiveMonumentReturn {
 export const useActiveMonument = (monumentName: string) => {
   const [activeMonument, setActiveMonument] = useState<Monument | null>(null);
   const monumentRef = collection(db, "/monuments");
+  const { handleChangeActivePosition } = useMapContext();
+
   const [snapshot, loading, error] = useCollection(
     query(
       monumentRef,
@@ -31,7 +34,9 @@ export const useActiveMonument = (monumentName: string) => {
 
   useEffect(() => {
     if (loading == false) {
-      setActiveMonument(snapshot?.docs[0]?.data() as Monument);
+      const monument = snapshot?.docs[0]?.data() as Monument;
+      setActiveMonument(monument);
+      handleChangeActivePosition({ lat: monument.lat, lng: monument.lng });
     }
   }, [loading, snapshot]);
 

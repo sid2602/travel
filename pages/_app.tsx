@@ -4,14 +4,18 @@ import GlobalStyle from "../assets/globalStyles";
 import LightTheme from "../assets/theme";
 import "leaflet/dist/leaflet.css";
 import { MonumentsProvider } from "../contexts/Monuments";
+import React from "react";
+import { MapProvider } from "../contexts/MapContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <ThemeProvider theme={LightTheme}>
         <MonumentsProvider>
-          <GlobalStyle />
-          <Component {...pageProps} />
+          <MapProvider>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </MapProvider>
         </MonumentsProvider>
       </ThemeProvider>
     </>

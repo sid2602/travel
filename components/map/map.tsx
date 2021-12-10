@@ -3,9 +3,9 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import styled from "styled-components";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Marker as MarkerModel } from "../../models/marker";
-import { useMonumentsContext } from "../../contexts/Monuments";
+import { useMapContext } from "../../contexts/MapContext";
 
 type MapProps = {
   markers: MarkerModel[] | undefined;
@@ -13,7 +13,11 @@ type MapProps = {
 
 const Map: React.FC<MapProps> = ({ markers }) => {
   const [isBrowser, setIsBrowser] = useState(false);
-  const [map, setMap] = useState<L.Map>();
+
+  const {
+    activePosition: { lat, lng },
+    handleSetMap,
+  } = useMapContext();
 
   const icon = L.icon({
     iconUrl: "/img/marker.min.svg",
@@ -25,24 +29,16 @@ const Map: React.FC<MapProps> = ({ markers }) => {
     setIsBrowser(true);
   }, []);
 
-  useEffect(() => {
-    if (map) {
-      setInterval(function () {
-        map.invalidateSize();
-      }, 100);
-    }
-  }, [map]);
-
   if (!isBrowser) {
     return null;
   }
 
   return (
     <StyledMap
-      center={[50.05408720089961, 19.935244094164165]}
+      center={[lat, lng]}
       zoom={13}
       scrollWheelZoom={true}
-      whenCreated={setMap}
+      whenCreated={handleSetMap}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
