@@ -39,7 +39,7 @@ const Map: React.FC<MapProps> = () => {
         loading: () => <p>A map is loading</p>,
         ssr: false,
       }),
-    [markers, lat, lng]
+    [markers, lat, lng, mobileMapIsActive]
   );
 
   return (

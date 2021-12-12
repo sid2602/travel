@@ -33,6 +33,14 @@ const GlobalStyle = createGlobalStyle`
     color: black;
   }
 
+
+  .leaflet-popup{
+    position: absolute;
+    top: -115px ;
+    margin-left: 12px;
+
+  }
+
 `;
 
 export default GlobalStyle;

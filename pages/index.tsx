@@ -57,6 +57,10 @@ const SearchBar = styled.section`
   display: flex;
   padding: 1rem;
   align-items: center;
+
+  @media ${device.laptop} {
+    width: 100%;
+  }
 `;
 
 const TemporaryCardsContainer = styled.section`
