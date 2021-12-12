@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { device } from "../../assets/device";
 import AppContainer from "../../components/appContainer";
@@ -25,22 +25,26 @@ const Monument: React.FC<MonumentProps> = () => {
             <div>loading</div>
           ) : (
             <>
-              <ImageContainer>
-                <Image src={activeMonument?.img} />
-              </ImageContainer>
-              <Header>
-                <HeadLine>{activeMonument?.name}</HeadLine>
-              </Header>
-              <MonumentSections>
-                <MonumentInfo>
-                  <MonumentInfoHeader>
-                    <MonumentInfoHeadline>Opis</MonumentInfoHeadline>
-                  </MonumentInfoHeader>
-                  <MonumentInfoDescription>
-                    {activeMonument?.description}
-                  </MonumentInfoDescription>
-                </MonumentInfo>
-              </MonumentSections>
+              {activeMonument !== null && (
+                <>
+                  <ImageContainer>
+                    <Image src={activeMonument?.img} />
+                  </ImageContainer>
+                  <Header>
+                    <HeadLine>{activeMonument?.name}</HeadLine>
+                  </Header>
+                  <MonumentSections>
+                    <MonumentInfo>
+                      <MonumentInfoHeader>
+                        <MonumentInfoHeadline>Opis</MonumentInfoHeadline>
+                      </MonumentInfoHeader>
+                      <MonumentInfoDescription>
+                        {activeMonument?.description}
+                      </MonumentInfoDescription>
+                    </MonumentInfo>
+                  </MonumentSections>
+                </>
+              )}
             </>
           )}
         </InfoContainer>

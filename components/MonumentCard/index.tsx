@@ -43,7 +43,7 @@ const MonumentCardContainer = styled.article`
   box-shadow: 0 4px 6px 0 ${({ theme }) => theme.colors.shadow};
   display: flex;
   transition: 0.2s;
-
+  max-width: 960px;
   &:hover {
     box-shadow: 6px 6px 6px 0 ${({ theme }) => theme.colors.shadow};
   }

@@ -1,5 +1,6 @@
-export interface Marker {
-  lat: number;
-  lng: number;
-  text: string;
+import { Position } from "./position";
+
+export interface Marker extends Position {
+  monumentName: string;
+  img: string;
 }
