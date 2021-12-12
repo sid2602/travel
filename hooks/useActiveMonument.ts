@@ -10,6 +10,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { Monument } from "../models/monument";
 import { db } from "../firebase/clientApp";
 import { useMapContext } from "../contexts/MapContext";
+import { Position } from "../models/position";
 
 export interface UseActiveMonumentReturn {
   activeMonument: Monument | null;
@@ -39,6 +40,21 @@ export const useActiveMonument = (monumentName: string) => {
       handleChangeActivePosition({ lat: monument.lat, lng: monument.lng });
     }
   }, [loading, snapshot]);
+
+  const { handleSetActiveMonumentPosition } = useMapContext();
+
+  useEffect(() => {
+    if (activeMonument) {
+      handleSetActiveMonumentPosition({
+        lat: activeMonument.lat,
+        lng: activeMonument.lng,
+      } as Position);
+    }
+
+    return () => {
+      handleSetActiveMonumentPosition(null);
+    };
+  }, [activeMonument]);
 
   return {
     activeMonument,

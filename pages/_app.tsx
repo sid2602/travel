@@ -6,7 +6,6 @@ import "leaflet/dist/leaflet.css";
 import { MonumentsProvider } from "../contexts/Monuments";
 import React from "react";
 import { MapProvider } from "../contexts/MapContext";
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>

@@ -58,6 +58,27 @@ const GlobalStyle = createGlobalStyle`
     display: none;
   }
 
+  .active-marker{
+    animation: jumps;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    animation-timing-function: ease-in-out;
+    
+  }
+
+  @keyframes jumps{
+    0%{
+      top: 0;
+    }
+    50%{
+      top: 0;
+    }
+    100%{
+      top: 5px;
+    }
+  }
+
 `;
 
 export default GlobalStyle;

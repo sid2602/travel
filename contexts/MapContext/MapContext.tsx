@@ -6,6 +6,8 @@ interface MonumentsContextInterface {
   handleChangeActivePosition: (newActivePosition: Position) => void;
   map: L.Map | null;
   handleSetMap: (map: L.Map) => void;
+  activeMonumentPosition: Position | null;
+  handleSetActiveMonumentPosition: (position: Position | null) => void;
 }
 
 const MapContext = createContext<MonumentsContextInterface>({
@@ -13,6 +15,8 @@ const MapContext = createContext<MonumentsContextInterface>({
   handleChangeActivePosition: () => {},
   map: null,
   handleSetMap: () => {},
+  activeMonumentPosition: null,
+  handleSetActiveMonumentPosition: () => {},
 });
 
 export const useMapContext = () => useContext(MapContext);
@@ -27,6 +31,13 @@ export const MapProvider: React.FC<{}> = ({ children }) => {
 
   const handleChangeActivePosition = (newActivePosition: Position) => {
     setactivePosition(newActivePosition);
+  };
+
+  const [activeMonumentPosition, setActiveMonumentPosition] =
+    useState<Position | null>(null);
+
+  const handleSetActiveMonumentPosition = (position: Position | null) => {
+    setActiveMonumentPosition(position);
   };
 
   const handleSetMap = (map: L.Map) => {
@@ -47,6 +58,8 @@ export const MapProvider: React.FC<{}> = ({ children }) => {
         handleChangeActivePosition,
         map,
         handleSetMap,
+        activeMonumentPosition,
+        handleSetActiveMonumentPosition,
       }}
     >
       {children}
