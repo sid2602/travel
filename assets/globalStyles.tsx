@@ -36,9 +36,26 @@ const GlobalStyle = createGlobalStyle`
 
   .leaflet-popup{
     position: absolute;
-    top: -115px ;
-    margin-left: 12px;
+    top: -155px ;
+    width: 240px;
+    padding: 0;
+  }
 
+  .leaflet-popup-content-wrapper{
+    padding: 0;
+  }
+
+  .leaflet-popup-content{
+    position: relative;
+    width: 100% !important;
+    height: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+  }
+
+  .leaflet-popup-tip-container{
+    display: none;
   }
 
 `;

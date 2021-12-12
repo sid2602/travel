@@ -25,10 +25,11 @@ const Map: React.FC<MapProps> = () => {
 
   const markers: Marker[] = useMemo(
     () =>
-      monuments?.map((monument) => ({
-        lat: monument.lat,
-        lng: monument.lng,
-        text: monument.name,
+      monuments?.map(({ lat, lng, name, img }) => ({
+        lat,
+        lng,
+        monumentName: name,
+        img,
       })),
     [monuments]
   );
