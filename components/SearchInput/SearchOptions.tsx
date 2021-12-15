@@ -50,7 +50,6 @@ export const SearchOptions: React.FC<SearchOptions> = ({
             </ResultInfoCon>
           </Result>
         </ResulButton>
-        // </Link>
       ))}
     </Container>
   );

@@ -34,7 +34,7 @@ const Map: React.FC<MapProps> = ({ markers }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {markers?.map((marker) => (
-        <Marker markerData={marker} />
+        <Marker markerData={marker} key={marker.monumentName} />
       ))}
     </StyledMap>
   );
