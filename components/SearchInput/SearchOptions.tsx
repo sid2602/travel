@@ -6,7 +6,8 @@ import {
 import { Place } from "../../models/place";
 import { FaPlaceOfWorship } from "react-icons/fa";
 import { GiModernCity } from "react-icons/gi";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { useMapContext } from "../../contexts/MapContext";
 interface SearchOptions {
   category: SearchInputResultType;
   places: Place[];
@@ -16,33 +17,40 @@ export const SearchOptions: React.FC<SearchOptions> = ({
   category,
   places,
 }) => {
+  const router = useRouter();
+  const { handleChangeActivePosition } = useMapContext();
+
+  const handleResultButtonClick = (place: Place) => {
+    if (category === SearchInputResultType.Monument) {
+      router.push(`/monument/${place.name}`);
+    } else {
+      handleChangeActivePosition({ lat: place.lat, lng: place.lng });
+    }
+  };
+
   return (
     <Container>
       <Category>{transformToPluralSearchInputResultType(category)}</Category>
-      {places.map(({ name }) => (
-        <Link
-          href={
-            category === SearchInputResultType.Monument
-              ? `/monument/${name}`
-              : "/"
-          }
+      {places.map((place) => (
+        <ResulButton
+          key={place.name}
+          onClick={() => handleResultButtonClick(place)}
         >
-          <a>
-            <Result>
-              <ResultIconCon>
-                {category === SearchInputResultType.City ? (
-                  <GiModernCity />
-                ) : (
-                  <FaPlaceOfWorship />
-                )}
-              </ResultIconCon>
-              <ResultInfoCon>
-                <ResultInfoName>{name}</ResultInfoName>
-                <ResultInfoCategory>{category}</ResultInfoCategory>
-              </ResultInfoCon>
-            </Result>
-          </a>
-        </Link>
+          <Result>
+            <ResultIconCon>
+              {category === SearchInputResultType.City ? (
+                <GiModernCity />
+              ) : (
+                <FaPlaceOfWorship />
+              )}
+            </ResultIconCon>
+            <ResultInfoCon>
+              <ResultInfoName>{place.name}</ResultInfoName>
+              <ResultInfoCategory>{category}</ResultInfoCategory>
+            </ResultInfoCon>
+          </Result>
+        </ResulButton>
+        // </Link>
       ))}
     </Container>
   );
@@ -58,6 +66,10 @@ const Category = styled.div`
   font-weight: bold;
   letter-spacing: 0.4px;
   padding: 1rem 1rem 0.5rem 1rem;
+`;
+
+const ResulButton = styled.button`
+  width: 100%;
 `;
 
 const Result = styled.div`
