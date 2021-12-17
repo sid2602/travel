@@ -69,6 +69,7 @@ const Category = styled.div`
 
 const ResulButton = styled.button`
   width: 100%;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 const Result = styled.div`

@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
-import MonumentCard from "../components/MonumentCard";
+import MonumentCard from "../components/MonumentCard/MonumentCard";
 import styled from "styled-components";
 import { device } from "../assets/device";
 import React, { useMemo, useState } from "react";
 import Map from "../components/map";
-import AppContainer from "../components/appContainer";
+import AppContainer from "../components/appContainer/appContainer";
 import { useMonumentsContext } from "../contexts/Monuments";
 import { SearchInput } from "../components/SearchInput/SearchInput";
 const Home: NextPage = () => {

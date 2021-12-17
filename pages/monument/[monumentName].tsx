@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 import { device } from "../../assets/device";
-import AppContainer from "../../components/appContainer";
+import AppContainer from "../../components/appContainer/appContainer";
 import Map from "../../components/map";
 import { useActiveMonument } from "../../hooks/useActiveMonument";
 import { BiArrowBack } from "react-icons/bi";

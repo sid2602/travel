@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Navbar from "../navbar";
+import Navbar from "../navbar/navbar";
 import { motion } from "framer-motion";
 
 const AppContainer: React.FC<{}> = ({ children }) => {
