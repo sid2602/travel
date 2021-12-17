@@ -1,45 +1,52 @@
-import React from "react";
+import Input from "../input/input";
 import styled from "styled-components";
-import TextArea from "../textArea";
+import React from "react";
 import ErrorMessage from "../errorMessage/errorMessage";
-
-interface TextAreaFormFiledProps {
+interface FormFiledProps {
   placeholder: string;
   name: string;
   value?: string | number;
   onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
   errorMessage?: string;
+  type?: string;
 }
 
-const TextAreaFormFiled: React.FC<TextAreaFormFiledProps> = ({
+const FormField: React.FC<FormFiledProps> = ({
   placeholder,
-  onChange,
   name,
   value,
+  onChange,
+  type,
   errorMessage,
+
+  ...rest
 }) => {
   return (
     <Container>
       <FormFiledPlaceholder>{placeholder}</FormFiledPlaceholder>
-      <TextArea value={value} onChange={onChange} name={name} />
+      <Input
+        {...rest}
+        value={value}
+        name={name}
+        type={type}
+        onChange={onChange}
+      />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </Container>
   );
 };
 
-TextAreaFormFiled.defaultProps = {
+export default FormField;
+
+FormField.defaultProps = {
   onChange: () => {},
 };
-
-export default TextAreaFormFiled;
 
 const Container = styled.div`
   margin: 1rem 0;
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `;
 
 export const FormFiledPlaceholder = styled.p`

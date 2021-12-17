@@ -1,6 +1,6 @@
 import React from "react";
-import FormField from "../../components/formField";
-import TextAreaFormFiled from "../../components/textAreaFormFiled";
+import FormField from "../../components/formField/formField";
+import TextAreaFormFiled from "../../components/textAreaFormFiled/textAreaFormField";
 import { useForm, FormProvider } from "react-hook-form";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import AddMonumentSchema from "../../schemas/addMonumentSchema";

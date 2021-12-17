@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Input from "../input/index";
+import Input from "../input/input";
 import React from "react";
 import { SearchResultContainer } from "./SearchResultContainer";
 interface SearchInfoProps {
